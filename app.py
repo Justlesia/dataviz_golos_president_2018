@@ -8,6 +8,17 @@
 # (нужно создать свою копию)
 # Тут показано как это работает: https://youtu.be/fRScTlfZ16c
 
+# #####  Библиотеки и функции
+import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
+import dash_bootstrap_components as dbc
+import plotly.io as pio
+
+from dash import dcc, html, Input, Output
+from jupyter_dash import JupyterDash
+from base64 import b64encode
+import io
 
 # ЗАДАТЬ ЦВЕТ ТОЧЕК
 # Официальная Явка без видео
@@ -26,28 +37,9 @@ info_2018 = 'steelblue'
 # Расчет волонтеров 2020
 info_2020 = 'blue'
 
-
-# #####  Библиотеки и функции
-import numpy as np
-import pandas as pd
-import plotly.graph_objects as go
-import dash_bootstrap_components as dbc
-
-from dash import dcc, html, Input, Output
-from jupyter_dash import JupyterDash
-from base64 import b64encode
-import io
-
 TIMEOUT = 60
-import plotly.io as pio
 
 pio.templates.default = "plotly_white"
-
-# Импортируем все необходимые библиотеки
-user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
-headers = {'User-Agent': user_agent}
-
-pd.set_option('display.max_columns', None)
 
 
 # ##### Загрузка данных
@@ -57,14 +49,6 @@ def data_read():
     data.columns = data[1:2].values[0]
     data = data[2:]
     return data
-
-
-
-data = pd.read_csv(
-    'https://raw.githubusercontent.com/Justlesia/dataviz_golos_president_2018/main/falsifications_detected_president_rf_2018.csv')
-
-data = pd.read_csv('falsifications_detected_president_rf_2018.csv')
-
 
 
 def flattened(data):
@@ -80,9 +64,6 @@ def flattened(data):
     return data_flattened
 
 
-# data_flattened = flattened(data)
-
-
 # In[11]:
 
 
@@ -90,9 +71,6 @@ def replace_and_add(data_flattened):
     data_flattened['region_uik'] = data_flattened['region'] + ', ' + data_flattened['uik']
     data_flattened['uik_num'] = data_flattened['uik'].str.replace('УИК №', '')
     return data_flattened
-
-
-# data_flattened = replace_and_add(data_flattened)
 
 
 # In[12]:
@@ -106,12 +84,6 @@ def proverka_fact(sample_data):
     proverka_fact['variable'] = 'Официальная Явка'
     sample_data = sample_data.merge(proverka_fact, how='left', on=['region', 'uik', 'variable'])
     return sample_data
-
-
-# sample_data = proverka_fact(data_flattened)
-
-
-# In[13]:
 
 
 def sample_data_color(sample_data, lag):
@@ -128,18 +100,6 @@ def sample_data_color(sample_data, lag):
     sample_data['color'] = sample_data['color'].where(
         np.logical_not(sample_data['value'] < (sample_data['mean_volunteer'] - lag)), video_strange)
     return sample_data
-
-
-# sample_data = sample_data_color(sample_data, 0.05)
-
-
-# для кнопки
-buffer = io.StringIO()
-fig = go.Figure()
-html_bytes = buffer.getvalue().encode()
-encoded = b64encode(html_bytes).decode()
-
-# In[17]:
 
 
 app = JupyterDash(__name__, external_stylesheets=[dbc.themes.LITERA])
@@ -232,32 +192,22 @@ left_controls = dbc.Form([
 ])
 
 disclaimer = html.Div(
-
     dbc.FormText([
         html.Span(
             '(материал произведен совместно с ЦИК РФ и распространён официально признанным агентом иной страны, иной России, Прекрасной России Будущего, лицом, являющимся членом органа (Совета) НКО (Лига Избирателей) выполняющей, по мнению Минюста РФ, функции иностранного агента на сумму 225 рублей 40 копеек, пожертвованных в 2019 году Светланой Доровской, якобы являющейся гражданкой Молдовы, а возможно и России, т.к. она зарегистрирована и проживает в г. Москве).')
     ]),
 )
 
-# для кнопки
-buffer = io.StringIO()
-fig = go.Figure()
-html_bytes = buffer.getvalue().encode()
-encoded = b64encode(html_bytes).decode()
-
 button = html.Div(
     [
         dbc.Button("Скачать как HTML",
                    id="download",
-                   href="data:text/html;base64," + encoded,
+                   href="#",
                    download="plotly_graph.html",
                    className="me-1",
-                   # external_link=True
                    ),
     ]
 )
-
-# In[19]:
 
 
 app.layout = dbc.Container([
@@ -397,4 +347,4 @@ def modify(all_or_colored, region, lag, uik_number, types1, types2, types3, regi
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server()
