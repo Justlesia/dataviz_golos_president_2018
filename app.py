@@ -199,6 +199,7 @@ encoded = b64encode(html_bytes).decode()
 
 
 app = JupyterDash(__name__, external_stylesheets=[dbc.themes.LITERA])
+server = app.server
 
 cache = Cache(app.server, config={
     'CACHE_TYPE': 'simple',
