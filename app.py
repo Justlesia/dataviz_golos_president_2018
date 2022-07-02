@@ -277,7 +277,7 @@ def modify(all_or_colored, region, lag, uik_number, types1, types2, types3, regi
     # все уики или один
     if all_or_colored == 0:
         sample_data = sample_data[np.logical_not(sample_data['color'].isin([no_video, video_not_looked]))]
-    elif all_or_colored == 2 and int(uik_number) > 0r:
+    elif all_or_colored == 2 and int(uik_number) > 0:
         try:
             sample_data = sample_data[sample_data['uik_num'] == int(uik_number)]
         except ValueError:
