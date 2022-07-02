@@ -8,8 +8,6 @@
 # (нужно создать свою копию)
 # Тут показано как это работает: https://youtu.be/fRScTlfZ16c
 
-# In[1]:
-
 
 # ЗАДАТЬ ЦВЕТ ТОЧЕК
 # Официальная Явка без видео
@@ -28,14 +26,8 @@ info_2018 = 'steelblue'
 # Расчет волонтеров 2020
 info_2020 = 'blue'
 
-# In[2]:
-
 
 # #####  Библиотеки и функции
-
-# In[3]:
-
-
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
@@ -60,10 +52,6 @@ pd.set_option('display.max_columns', None)
 
 
 # ##### Загрузка данных
-
-# In[4]:
-
-
 def data_read():
     data = pd.ExcelFile('„Фальсификации выявляемые явкой (Президент РФ 2018 с погрешностью)“ kopija_.xlsx').parse('ЦИК')
     data = data.drop(columns=['Unnamed: 0', 'Unnamed: 14', 'Unnamed: 19'])
@@ -72,41 +60,12 @@ def data_read():
     return data
 
 
-# In[5]:
-
-
-# data = data_read()
-
-
-# In[6]:
-
-
-# data = data.drop(columns=['Число избирателей, включенных в список избирателей',
-#                          '% отклонения','Оф явка просмотр < threshhold','Оф явка просмотр >=threshhold','Адрес format'])
-
-
-# In[7]:
-
-
-# data.to_csv('falsifications_detected_president_rf_2018.csv', index=False)
-
-
-# In[8]:
-
 
 data = pd.read_csv(
     'https://raw.githubusercontent.com/Justlesia/dataviz_golos_president_2018/main/falsifications_detected_president_rf_2018.csv')
 
 data = pd.read_csv('falsifications_detected_president_rf_2018.csv')
 
-
-# In[9]:
-
-
-# data.head()
-
-
-# In[10]:
 
 
 def flattened(data):
@@ -191,9 +150,6 @@ cache = Cache(app.server, config={
     'CACHE_TYPE': 'simple',
     # 'CACHE_DIR': 'cache-directory'
 })
-
-# In[18]:
-
 
 upper_left_controls = dbc.Form([
     html.Div([
@@ -346,9 +302,6 @@ app.layout = dbc.Container([
             align="left")
     ]),
 ])
-
-
-# In[20]:
 
 
 @cache.memoize(timeout=TIMEOUT)
