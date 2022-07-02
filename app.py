@@ -473,9 +473,5 @@ def modify(all_or_colored, region, lag, uik_number, types1, types2, types3, regi
     return fig, region_list, "data:text/html;base64," + encoded
 
 
-app.run_server(debug=True)
-
-
-#if __name__ == '__main__':
-#     app.run_server(mode="external")
-
+if __name__ == '__main__':
+    app.run_server(debug=True)
