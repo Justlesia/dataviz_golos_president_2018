@@ -39,36 +39,22 @@ info_2020 = 'blue'
 
 import numpy as np
 import pandas as pd
-import warnings
-
-from plotly.colors import n_colors
-import plotly as plt
-import requests
-
-import json
-
-import plotly.graph_objects as go 
-import dash
-import dash_core_components as dcc
-import dash_html_components as html
-
+import plotly.graph_objects as go
 import dash_bootstrap_components as dbc
 
-from dash import Dash, dcc, html, Input, Output
+from dash import dcc, html, Input, Output
 from jupyter_dash import JupyterDash
 from flask_caching import Cache
 from base64 import b64encode
 import io
 TIMEOUT = 60
 import plotly.io as pio
-import plotly.express as px
 pio.templates.default = "plotly_white"
 
 #Импортируем все необходимые библиотеки
 user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
 headers = {'User-Agent': user_agent}
 
-#from tqdm import tqdm
 pd.set_option('display.max_columns', None)
 
 
