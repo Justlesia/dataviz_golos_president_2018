@@ -172,7 +172,7 @@ sample_data = sample_data_color(sample_data, 0.05)
 # In[14]:
 
 
-print(sample_data['color'].unique())
+# print(sample_data['color'].unique())
 
 
 # In[15]:
@@ -473,7 +473,7 @@ def modify(all_or_colored, region, lag, uik_number, types1, types2, types3, regi
     return fig, region_list, "data:text/html;base64," + encoded
 
 
-app.run_server(mode="inline")
+app.run_server(debug=True)
 
 
 #if __name__ == '__main__':
