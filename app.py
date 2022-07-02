@@ -35,7 +35,6 @@ import dash_bootstrap_components as dbc
 
 from dash import dcc, html, Input, Output
 from jupyter_dash import JupyterDash
-from flask_caching import Cache
 from base64 import b64encode
 import io
 
@@ -146,10 +145,6 @@ encoded = b64encode(html_bytes).decode()
 app = JupyterDash(__name__, external_stylesheets=[dbc.themes.LITERA])
 server = app.server
 
-cache = Cache(app.server, config={
-    'CACHE_TYPE': 'simple',
-    # 'CACHE_DIR': 'cache-directory'
-})
 
 upper_left_controls = dbc.Form([
     html.Div([
@@ -304,7 +299,6 @@ app.layout = dbc.Container([
 ])
 
 
-@cache.memoize(timeout=TIMEOUT)
 def query_data():
     data = pd.read_csv('falsifications_detected_president_rf_2018.csv')
     data_flattened = flattened(data)
