@@ -64,16 +64,10 @@ def flattened(data):
     return data_flattened
 
 
-# In[11]:
-
-
 def replace_and_add(data_flattened):
     data_flattened['region_uik'] = data_flattened['region'] + ', ' + data_flattened['uik']
     data_flattened['uik_num'] = data_flattened['uik'].str.replace('УИК №', '')
     return data_flattened
-
-
-# In[12]:
 
 
 def proverka_fact(sample_data):
@@ -104,7 +98,6 @@ def sample_data_color(sample_data, lag):
 
 app = JupyterDash(__name__, external_stylesheets=[dbc.themes.LITERA])
 server = app.server
-
 
 upper_left_controls = dbc.Form([
     html.Div([
@@ -209,7 +202,6 @@ button = html.Div(
     ]
 )
 
-
 app.layout = dbc.Container([
     dbc.NavbarSimple(
         brand="Фальсификации выявляемые явкой (Президент РФ 2018 с погрешностью)",
@@ -254,7 +246,7 @@ def query_data():
     data_flattened = flattened(data)
     data_flattened = replace_and_add(data_flattened)
     sample_data = proverka_fact(data_flattened)
-    return sample_data.to_json(date_format='iso', orient='split')
+    return sample_data
 
 
 @app.callback(
@@ -276,7 +268,7 @@ def modify(all_or_colored, region, lag, uik_number, types1, types2, types3, regi
     types.extend(types2)
     types.extend(types3)
 
-    big_sample_data = pd.read_json(query_data(), orient='split')
+    big_sample_data = query_data()
 
     if region_type == 1:
         region_list = big_sample_data['region'].unique()
